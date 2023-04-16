@@ -3,3 +3,5 @@ Flask-SQLAlchemy
 flask_session
 pandas
 flask_wtf
+gunicorn
+
