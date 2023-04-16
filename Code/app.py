@@ -36,7 +36,7 @@ def get_participants():
     # Return the participant_ids list as a JSON object
     return participant_ids
 
-db.create_all()
+# db.create_all()
 
 class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
