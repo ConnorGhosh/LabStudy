@@ -47,7 +47,7 @@ class Participant(db.Model):
         return f"Participant('{self.id}', '{self.participant_id}')"
 
 
-db.create_all()
+# db.create_all()
 
 #Storing session data
 app.permanent_session_lifetime = timedelta(days=5)
