@@ -35,8 +35,8 @@ def get_participants():
 
     # Return the participant_ids list as a JSON object
     return participant_ids
-
-# db.create_all()
+with app.app_context():
+    db.create_all()
 
 class Participant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -46,8 +46,8 @@ class Participant(db.Model):
     def __repr__(self):
         return f"Participant('{self.id}', '{self.participant_id}')"
 
-
-# db.create_all()
+with app.app_context():
+    db.create_all()
 
 #Storing session data
 app.permanent_session_lifetime = timedelta(days=5)
