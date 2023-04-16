@@ -63,11 +63,12 @@ round_3_duration = 180
 round_4_duration = 180
 
 # Define a global variable to keep track of the current round
-latest_participant = Participant.query.order_by(Participant.id.desc()).first()
-if latest_participant is not None:
-    i_d = latest_participant.id
-else:
-    i_d = 0
+with app.app_context():
+    latest_participant = Participant.query.order_by(Participant.id.desc()).first()
+    if latest_participant is not None:
+        i_d = latest_participant.id
+    else:
+        i_d = 0
 current_round = 1
 partid = 0
 gameid = 0
