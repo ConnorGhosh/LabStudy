@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <link rel="stylesheet" type = "text/css" href = "{{ url_for('static', filename ='main.css')}}">
+        {% if title %}
+            <title> Search Game - {{ title }} </title>
+        {% else %}
+            <title>Game Zone</title>
+        {% endif %}
+    </head> 
+    <body>
+        <!--Nav bar code from bootstrap-->
+        <header class="site-header">
+            <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top bg-steel-new ">
+              <div class="container">
+              <a class="navbar-brand mr-4" href="/">Game</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                  <div class="navbar-nav mr-auto">
+                    <a class="nav-item nav-link" href="{{url_for('home')}}">Home</a>
+                    <a class="nav-item nav-link" href="/about">About</a>
+                  </div>
+                </div>
+            </div>
+            </nav>
+        </header>
+    <div class="container-fluid px-0">  
+        <div class="row">
+            <div class="col-md-12">            
+    <h1 class="round-fluid" style="padding-top: 50px;">Round {{ round_num }}</h1>
+    <h2>Symptoms:</h2>
+    </div>
+        </div>
+    </div>
+    <ul>
+        {% for symptom in symptoms %}
+            <li>{{ symptom }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Tool to use: {{ game }}</h2>
+    <h2>Countdown:</h2>
+    <div id="countdown">{{ duration }}</div>
+
+        <!--This is the submit bar-->
+    <form action="/getData" method="POST" id="myForm">
+        {{ form.hidden_tag() }}
+        <section class="bg-light text-light p-1 pt-lg-3">
+            <div class="container">
+                <div class="input-group form-group search-input align-items-center">
+                    <input type="text"  class="form-control" value = "FEVER" placeholder="Guess 1" aria-label="Search" aria-describedby="basic-addon2" name="Guess_1" required>
+                </div>
+            </div>
+        </section>
+        {{ form.hidden_tag() }}
+        <section class="bg-light text-light p-1 pt-lg-3">
+            <div class="container">
+                <div class="input-group form-group search-input align-items-center">
+                    <input type="text"  class="form-control" value= "fever" placeholder="Guess 2" aria-label="Search" aria-describedby="basic-addon2" name="Guess_2" required>
+                </div>
+            </div>
+        </section>
+        {{ form.hidden_tag() }}
+        <section class="bg-light text-light p-1 pt-lg-3">
+            <div class="container">
+                <div class="input-group form-group search-input align-items-center">
+                    <input type="text"  class="form-control" value = "FEVER" placeholder="Guess 3" aria-label="Search" aria-describedby="basic-addon2" name="Guess_3" required>
+                </div>
+            </div>
+        </section>
+        <input type="submit" value="Submit" onclick = savedata()>
+        <!-- <input type="submit" value="Submit"> -->
+    <!--Count Down-->
+    <script type="text/javascript"></script>
+     <script>
+       
+        var timeleft = {{duration}};
+        var downloadTimer = setInterval(function(){
+          document.getElementById("countdown").innerHTML = timeleft;
+          timeleft -= 1;
+          if(timeleft <= 0){
+            clearInterval(downloadTimer);
+            document.getElementById("countdown").innerHTML = "Time's up!";
+            document.getElementsByTagName("form")[0].submit();
+          }
+          else if(timeleft == 60){
+            var modalContainer = document.createElement("div");
+            modalContainer.setAttribute("class", "modal");
+            var modalContent = document.createElement("div");
+            modalContent.setAttribute("class", "modal-content");
+            var closeButton = document.createElement("span");
+            closeButton.setAttribute("class", "close");
+            closeButton.innerHTML = "&times;";
+            var modalText = document.createElement("p");
+            var timeLeft = `Warning only ${timeleft} secs left!!`;
+            modalText.innerHTML = timeLeft.bold();
+            modalContent.appendChild(closeButton);
+            modalContent.appendChild(modalText);
+            modalContainer.appendChild(modalContent);
+            document.body.appendChild(modalContainer);
+            closeButton.addEventListener("click", function() {
+            modalContainer.style.display = "none";
+            });
+            window.addEventListener("click", function(event) {
+            if (event.target == modalContainer) {
+                modalContainer.style.display = "none";
+            }
+            });
+            modalContainer.style.display = "none";
+            modalContainer.style.position = "fixed";
+            modalContainer.style.zIndex = "1";
+            modalContainer.style.left = "0";
+            modalContainer.style.top = "0";
+            modalContainer.style.width = "100%";
+            modalContainer.style.height = "100%";
+            modalContainer.style.overflow = "auto";
+            modalContainer.style.backgroundColor = "rgba(0, 0, 0, 0.4)";
+
+            modalContent.style.backgroundColor = "#fefefe";
+            modalContent.style.margin = "15% auto";
+            modalContent.style.padding = "20px";
+            modalContent.style.border = "1px solid #888";
+            modalContent.style.width = "30%";
+            // modalcontent.style.top= "20%";
+            // modalcontent.style.position= "absolute";
+            // modalcontent.style.left= "25%";
+            // modalContent.style.height = "50%";
+            modalContainer.style.display = "block";
+        }
+        }, 1000);
+  document.getElementById("myForm2").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+         // Call your function
+        this.submit();
+      });
+      
+    </script> 
+</body> 
+</html>
